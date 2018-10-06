@@ -1,4 +1,4 @@
-2017 White House Employee Salary Analysis
+2017 White House Employee Salary Analysis - Gender pay gap
 ================
 Amin Yakubu
 10/6/2018
@@ -158,7 +158,7 @@ wh_pay %>%
   summarize(n = n(),
             mean = mean(SALARY),
             median = median(SALARY))  %>%
-  ggplot(aes(x = GENDER, y = mean, color = GENDER)) + 
+  ggplot(aes(x = GENDER, y = mean, fill = GENDER)) + 
   geom_col(width = 0.5) 
 ```
 
@@ -170,21 +170,21 @@ wh_pay %>%
   summarize(n = n(),
             mean = mean(SALARY),
             median = median(SALARY))  %>%
-  ggplot(aes(x = GENDER, y = median, color = GENDER)) + 
+  ggplot(aes(x = GENDER, y = median, fill = GENDER)) + 
   geom_col(width = 0.5) 
 ```
 
 <img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-2.png" width="90%" />
 
 ``` r
-ggplot(wh_pay, aes(x = GENDER, y = SALARY)) +
+ggplot(wh_pay, aes(x = GENDER, y = SALARY, fill = GENDER)) +
   geom_boxplot()
 ```
 
 <img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-3.png" width="90%" />
 
 ``` r
-ggplot(wh_pay, aes(x = STATUS)) + 
+ggplot(wh_pay, aes(x = STATUS, fill = GENDER)) + 
   geom_bar(width = 0.5)
 ```
 

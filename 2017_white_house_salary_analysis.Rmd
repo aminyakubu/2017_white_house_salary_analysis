@@ -1,5 +1,5 @@
 ---
-title: "2017 White House Employee Salary Analysis"
+title: "2017 White House Employee Salary Analysis - Gender pay gap"
 author: "Amin Yakubu"
 date: "10/6/2018"
 output: github_document
@@ -91,7 +91,7 @@ wh_pay %>%
   summarize(n = n(),
             mean = mean(SALARY),
             median = median(SALARY))  %>%
-  ggplot(aes(x = GENDER, y = mean, color = GENDER)) + 
+  ggplot(aes(x = GENDER, y = mean, fill = GENDER)) + 
   geom_col(width = 0.5) 
 
 wh_pay %>%
@@ -99,13 +99,13 @@ wh_pay %>%
   summarize(n = n(),
             mean = mean(SALARY),
             median = median(SALARY))  %>%
-  ggplot(aes(x = GENDER, y = median, color = GENDER)) + 
+  ggplot(aes(x = GENDER, y = median, fill = GENDER)) + 
   geom_col(width = 0.5) 
 
-ggplot(wh_pay, aes(x = GENDER, y = SALARY)) +
+ggplot(wh_pay, aes(x = GENDER, y = SALARY, fill = GENDER)) +
   geom_boxplot()
 
-ggplot(wh_pay, aes(x = STATUS)) + 
+ggplot(wh_pay, aes(x = STATUS, fill = GENDER)) + 
   geom_bar(width = 0.5)
 
 ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
