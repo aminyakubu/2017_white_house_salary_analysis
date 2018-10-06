@@ -1,0 +1,25 @@
+---
+title: "2017 White House Employee Salary Analysis"
+author: "Amin Yakubu"
+date: "10/6/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Loading tidyverse package and setting global options
+```{r}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
+```
+
