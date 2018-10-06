@@ -23,3 +23,65 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ```
 
+```{r}
+library(tidyverse)
+```
+
+Reading and cleaning the dataset 
+```{r}
+
+wh_pay = read_csv("./data//white_house_2017_salaries_clean.csv") %>% 
+  select(-(starts_with("X")))
+
+```
+
+In 2017, the White House spent a total of $ `r sum(wh_pay$salary)` on the salaries of `r nrow(wh_pay)` employees. 
+
+Below is a table showing the top 10 earners 
+
+```{r}
+wh_pay %>% 
+  top_n(10, SALARY) %>% 
+  arrange(desc(SALARY)) %>% 
+  knitr::kable()
+```
+
+
+
+```{r}
+wh_pay %>%
+  group_by(GENDER) %>%
+  summarize(n = n())
+
+wh_pay %>% 
+  group_by(TITLE) %>% 
+  summarize(n = n()) %>% 
+  arrange(desc(n))
+
+```
+
+```{r}
+wh_pay %>% 
+  group_by(GENDER) %>% 
+  summarize(n = n(),
+            mean = mean(SALARY),
+            median = median(SALARY)) 
+```
+
+```{r}
+wh_pay %>%
+  group_by(GENDER) %>%
+  summarize(n = n(),
+            mean = mean(SALARY),
+            median = median(SALARY))  %>%
+  ggplot(aes(x = GENDER, y = mean, color = GENDER)) + 
+  geom_col(width = 0.5)
+
+ggplot(wh_pay, aes(x = GENDER, y = SALARY)) +
+  geom_boxplot()
+
+ggplot(wh_pay, aes(x = STATUS)) + 
+  geom_bar(width = 0.5)
+
+```
+
