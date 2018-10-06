@@ -199,7 +199,7 @@ ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) +
 
 ``` r
 ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
-  geom_histogram(position = "dodge")
+  geom_histogram(position = "dodge") 
 ```
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
