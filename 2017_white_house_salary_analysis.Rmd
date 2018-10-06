@@ -35,7 +35,7 @@ wh_pay = read_csv("./data//white_house_2017_salaries_clean.csv") %>%
 
 ```
 
-In 2017, the White House spent a total of $ `r sum(wh_pay$salary)` on the salaries of `r nrow(wh_pay)` employees. 
+In 2017, the White House spent a total of `r sum(wh_pay$salary)` dollars on the salaries of `r nrow(wh_pay)` employees. 
 
 Below is a table showing the top 10 earners 
 
