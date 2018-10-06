@@ -112,6 +112,6 @@ ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) +
   geom_density(alpha = .4, adjust = .5, color = "blue")
 
 ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
-  geom_histogram(position = "dodge")
+  geom_histogram(position = "dodge") 
 ```
 
