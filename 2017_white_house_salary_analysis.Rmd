@@ -35,18 +35,35 @@ wh_pay = read_csv("./data//white_house_2017_salaries_clean.csv") %>%
 
 ```
 
-In 2017, the White House spent a total of `r sum(wh_pay$salary)` dollars on the salaries of `r nrow(wh_pay)` employees. 
+In 2017, the White House spent a total of $ `r sum(wh_pay$SALARY)` on the salaries of `r nrow(wh_pay)` employees. 
 
 Below is a table showing the top 10 earners 
 
 ```{r}
 wh_pay %>% 
-  top_n(10, SALARY) %>% 
+  top_n(1, SALARY) %>% 
   arrange(desc(SALARY)) %>% 
+  knitr::kable()
+
+wh_pay %>% 
+  filter(SALARY > 100000) %>% 
+  group_by(GENDER) %>% 
+  summarize(NUMBER = n()) %>% 
+  knitr::kable()
+
+```
+
+Of the 153 staff earning more than $100,000 only 51 of them are female. 
+
+```{r}
+wh_pay %>% 
+  filter(SALARY < 100000) %>% 
+  group_by(GENDER) %>% 
+  summarize(NUMBER = n()) %>% 
   knitr::kable()
 ```
 
-
+Of the remaining 224 that earn less than $100,000, 115 of them are female. This include Ivanka Trump and her husband, Jared Kusner, and Reed Cordish all of whom have a salary of 0. Gary Cohn, millionare former CEO of Goldman Sachs has a salary of 30,000. 
 
 ```{r}
 wh_pay %>%
@@ -75,7 +92,15 @@ wh_pay %>%
             mean = mean(SALARY),
             median = median(SALARY))  %>%
   ggplot(aes(x = GENDER, y = mean, color = GENDER)) + 
-  geom_col(width = 0.5)
+  geom_col(width = 0.5) 
+
+wh_pay %>%
+  group_by(GENDER) %>%
+  summarize(n = n(),
+            mean = mean(SALARY),
+            median = median(SALARY))  %>%
+  ggplot(aes(x = GENDER, y = median, color = GENDER)) + 
+  geom_col(width = 0.5) 
 
 ggplot(wh_pay, aes(x = GENDER, y = SALARY)) +
   geom_boxplot()
@@ -83,5 +108,10 @@ ggplot(wh_pay, aes(x = GENDER, y = SALARY)) +
 ggplot(wh_pay, aes(x = STATUS)) + 
   geom_bar(width = 0.5)
 
+ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
+  geom_density(alpha = .4, adjust = .5, color = "blue")
+
+ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
+  geom_histogram(position = "dodge")
 ```
 

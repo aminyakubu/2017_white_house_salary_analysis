@@ -59,42 +59,50 @@ wh_pay = read_csv("./data//white_house_2017_salaries_clean.csv") %>%
     ##   X11 = col_character()
     ## )
 
-In 2017, the White House spent a total of $ 0 on the salaries of 377 employees.
+In 2017, the White House spent a total of $ 35766744 on the salaries of 377 employees.
 
 Below is a table showing the top 10 earners
 
 ``` r
 wh_pay %>% 
-  top_n(10, SALARY) %>% 
+  top_n(1, SALARY) %>% 
   arrange(desc(SALARY)) %>% 
   knitr::kable()
 ```
 
-| NAME                    | STATUS   |  SALARY| PAY BASIS | TITLE                      | GENDER |
-|:------------------------|:---------|-------:|:----------|:---------------------------|:-------|
-| House, Mark S.          | Detailee |  187100| Per Annum | SENIOR POLICY ADVISOR      | M      |
-| Priebus, Reinhold R.    | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Reynolds, Lindsay B.    | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | F      |
-| Bannon, Stephen K.      | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| McGahn, II, Donald F.   | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Dearborn, Ricky A.      | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Hagin, Joseph W.        | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| McFarland, Kathleen T.  | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | F      |
-| Powell, Dina H.         | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | F      |
-| Manigault, Omarosa O.   | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | F      |
-| DeStefano, John J.      | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Scavino, Daniel J.      | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Hicks, Hope C.          | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | F      |
-| Bremberg, Andrew P.     | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Short, Marc T.          | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Sifakis, George A.      | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Kellogg, Jr., Joseph K. | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Spicer, Sean M.         | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Miller, Stephen         | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Conway, Kellyanne E.    | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | F      |
-| Greenblatt, Jason D.    | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Porter, Robert R.       | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
-| Bossert, Thomas P.      | Employee |  179700| Per Annum | ASSISTANT TO THE PRESIDENT | M      |
+| NAME           | STATUS   |  SALARY| PAY BASIS | TITLE                 | GENDER |
+|:---------------|:---------|-------:|:----------|:----------------------|:-------|
+| House, Mark S. | Detailee |  187100| Per Annum | SENIOR POLICY ADVISOR | M      |
+
+``` r
+wh_pay %>% 
+  filter(SALARY > 100000) %>% 
+  group_by(GENDER) %>% 
+  summarize(NUMBER = n()) %>% 
+  knitr::kable()
+```
+
+| GENDER |  NUMBER|
+|:-------|-------:|
+| F      |      51|
+| M      |     102|
+
+Of the 153 staff earning more than $100,000 only 51 of them are female.
+
+``` r
+wh_pay %>% 
+  filter(SALARY < 100000) %>% 
+  group_by(GENDER) %>% 
+  summarize(NUMBER = n()) %>% 
+  knitr::kable()
+```
+
+| GENDER |  NUMBER|
+|:-------|-------:|
+| F      |     115|
+| M      |     109|
+
+Of the remaining 224 that earn less than $100,000, 115 of them are female. This include Ivanka Trump and her husband, Jared Kusner, and Reed Cordish all of whom have a salary of 0. Gary Cohn, millionare former CEO of Goldman Sachs has a salary of 30,000.
 
 ``` r
 wh_pay %>%
@@ -151,21 +159,49 @@ wh_pay %>%
             mean = mean(SALARY),
             median = median(SALARY))  %>%
   ggplot(aes(x = GENDER, y = mean, color = GENDER)) + 
-  geom_col(width = 0.5)
+  geom_col(width = 0.5) 
 ```
 
-<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-7-1.png" width="90%" />
+<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-1.png" width="90%" />
+
+``` r
+wh_pay %>%
+  group_by(GENDER) %>%
+  summarize(n = n(),
+            mean = mean(SALARY),
+            median = median(SALARY))  %>%
+  ggplot(aes(x = GENDER, y = median, color = GENDER)) + 
+  geom_col(width = 0.5) 
+```
+
+<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-2.png" width="90%" />
 
 ``` r
 ggplot(wh_pay, aes(x = GENDER, y = SALARY)) +
   geom_boxplot()
 ```
 
-<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-7-2.png" width="90%" />
+<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-3.png" width="90%" />
 
 ``` r
 ggplot(wh_pay, aes(x = STATUS)) + 
   geom_bar(width = 0.5)
 ```
 
-<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-7-3.png" width="90%" />
+<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-4.png" width="90%" />
+
+``` r
+ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
+  geom_density(alpha = .4, adjust = .5, color = "blue")
+```
+
+<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-5.png" width="90%" />
+
+``` r
+ggplot(wh_pay, aes(x = SALARY, fill = GENDER)) + 
+  geom_histogram(position = "dodge")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+<img src="2017_white_house_salary_analysis_files/figure-markdown_github/unnamed-chunk-8-6.png" width="90%" />
